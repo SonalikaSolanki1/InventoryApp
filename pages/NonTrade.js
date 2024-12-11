@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         width: "100%",
         paddingVertical: 15,
         marginVertical: 10,
-        backgroundColor: "#6200ee",
+        backgroundColor: "#e28743",
         borderRadius: 10,
         display: 'flex',
         flexDirection: 'row',

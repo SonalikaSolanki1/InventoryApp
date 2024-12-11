@@ -60,11 +60,45 @@ const NonTradeStack = () => {
 
 // Top Tabs Component with Tab Navigator
 const TopTabs = () => {
+  const [headerColor, setHeaderColor] = useState('#6200EE');
+  const [activeTab, setActiveTab] = useState('Trade Stack'); // Track active tab manually
+
+  const handleTabChange = (tabName) => {
+    setActiveTab(tabName);
+    if (tabName === 'Trade Stack') {
+      setHeaderColor('#6200EE');
+    } else if (tabName === 'NonTrade Stack') {
+      setHeaderColor('#e28743');
+    }
+  };
+
   return (
-    <TopTab.Navigator screenOptions={{ headerShown: false }}>
-      <TopTab.Screen name="Trade Stack" component={TradeStack} options={{ tabBarIndicatorStyle: { backgroundColor: '#6200EE' } }} />
-      <TopTab.Screen name="NonTrade Stack" component={NonTradeStack} options={{ tabBarIndicatorStyle: { backgroundColor: '#e28743' } }} />
-    </TopTab.Navigator>
+    <>
+      {/* Header */}
+      <View style={[styles.header, { backgroundColor: headerColor }]}>
+        <Text style={styles.headerText}>KS Infratech</Text>
+      </View>
+      <TopTab.Navigator
+        screenOptions={{ headerShown: false }}
+        screenListeners={{
+          state: (e) => {
+            const activeRoute = e.data.state.routes[e.data.state.index].name;
+            handleTabChange(activeRoute);
+          },
+        }}
+      >
+        <TopTab.Screen
+          name="Trade Stack"
+          component={TradeStack}
+          options={{ tabBarIndicatorStyle: { backgroundColor: '#6200EE' } }}
+        />
+        <TopTab.Screen
+          name="NonTrade Stack"
+          component={NonTradeStack}
+          options={{ tabBarIndicatorStyle: { backgroundColor: '#e28743' } }}
+        />
+      </TopTab.Navigator>
+    </>
   );
 };
 
@@ -104,12 +138,6 @@ const App = () => {
         <View style={styles.container}>
           {/* Hide the status bar */}
           <StatusBar hidden={true} />
-
-          {/* Header */}
-          <View style={styles.header}>
-            <Text style={styles.headerText}>KS Infratech</Text>
-          </View>
-
           <BottomTabs />
         </View>
       </NavigationContainer>
@@ -124,7 +152,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   header: {
-    backgroundColor: '#6200EE',
     paddingTop: 60,
     paddingLeft: 25,
     paddingBottom: 10,
