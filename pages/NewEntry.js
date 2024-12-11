@@ -9,7 +9,6 @@ import {
     ScrollView,
     ActivityIndicator,
 } from "react-native";
-import ModalDropdown from "react-native-modal-dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrderTypes, submitOrder } from "../redux/slices/orderSlice";
 
