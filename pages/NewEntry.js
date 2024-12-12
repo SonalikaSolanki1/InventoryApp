@@ -13,33 +13,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchOrderTypes, submitOrder } from "../redux/slices/orderSlice";
 
 export const NewEntryTrade = () => {
+    const dispatch = useDispatch();
     const [clientName, setClientName] = useState("");
     const [address, setAddress] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [quantity, setQuantity] = useState("");
-    const [orderType, setOrderType] = useState(null);
-
-    const dispatch = useDispatch();
-    const { orderTypes, loading } = useSelector((state) => state.orders);
-
-    useEffect(() => {
-        dispatch(fetchOrderTypes());
-    }, [dispatch]);
+    const [price, setPrice] = useState("");
+    const [orderType, setOrderType] = useState("Trade");
 
     const handleSubmit = () => {
-        if (!clientName || !address || !phoneNumber || !quantity || !orderType) {
+        if (!clientName || !address || !phoneNumber || !quantity || !price) {
             Alert.alert("Error", "Please fill out all fields.");
             return;
         }
 
-        const orderData = { clientName, address, phoneNumber, quantity, orderType };
+        const orderData = { clientName, address, phoneNumber, quantity, price, orderType };
         dispatch(submitOrder(orderData)).then(() => {
             Alert.alert("Success", `Order submitted:\nClient: ${clientName}\nOrder Type: ${orderType}`);
             setClientName("");
             setAddress("");
             setPhoneNumber("");
             setQuantity("");
-            setOrderType(null);
+            setPrice("");
         });
     };
 
@@ -74,6 +69,14 @@ export const NewEntryTrade = () => {
                 placeholder="Quantity"
                 value={quantity}
                 onChangeText={setQuantity}
+                keyboardType="numeric"
+                placeholderTextColor="#888"
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Price"
+                value={price}
+                onChangeText={setPrice}
                 keyboardType="numeric"
                 placeholderTextColor="#888"
             />
@@ -86,33 +89,28 @@ export const NewEntryTrade = () => {
 
 
 export const NewEntryNonTrade = () => {
+    const dispatch = useDispatch();
     const [clientName, setClientName] = useState("");
     const [address, setAddress] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [quantity, setQuantity] = useState("");
-    const [orderType, setOrderType] = useState(null);
-
-    const dispatch = useDispatch();
-    const { orderTypes, loading } = useSelector((state) => state.orders);
-
-    useEffect(() => {
-        dispatch(fetchOrderTypes());
-    }, [dispatch]);
+    const [price, setPrice] = useState("");
+    const [orderType, setOrderType] = useState("NonTrade");
 
     const handleSubmit = () => {
-        if (!clientName || !address || !phoneNumber || !quantity || !orderType) {
+        if (!clientName || !address || !phoneNumber || !quantity || !price) {
             Alert.alert("Error", "Please fill out all fields.");
             return;
         }
 
-        const orderData = { clientName, address, phoneNumber, quantity, orderType };
+        const orderData = { clientName, address, phoneNumber, quantity, price, orderType };
         dispatch(submitOrder(orderData)).then(() => {
             Alert.alert("Success", `Order submitted:\nClient: ${clientName}\nOrder Type: ${orderType}`);
             setClientName("");
             setAddress("");
             setPhoneNumber("");
             setQuantity("");
-            setOrderType(null);
+            setPrice("");
         });
     };
 
@@ -150,8 +148,16 @@ export const NewEntryNonTrade = () => {
                 keyboardType="numeric"
                 placeholderTextColor="#888"
             />
-            <Pressable style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Submit</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Price"
+                value={price}
+                onChangeText={setPrice}
+                keyboardType="numeric"
+                placeholderTextColor="#888"
+            />
+            <Pressable style={styles.button2} onPress={handleSubmit}>
+                <Text style={styles.buttonText2}>Submit</Text>
             </Pressable>
         </ScrollView>
     );
@@ -209,11 +215,23 @@ const styles = StyleSheet.create({
     button: {
         width: "100%",
         paddingVertical: 15,
-        backgroundColor: "#007BFF",
+        backgroundColor: "#6200ee",
         borderRadius: 10,
         alignItems: "center",
     },
     buttonText: {
+        color: "#fff",
+        fontSize: 18,
+        fontWeight: "bold",
+    },
+    button2: {
+        width: "100%",
+        paddingVertical: 15,
+        backgroundColor: "#e28743",
+        borderRadius: 10,
+        alignItems: "center",
+    },
+    buttonText2: {
         color: "#fff",
         fontSize: 18,
         fontWeight: "bold",

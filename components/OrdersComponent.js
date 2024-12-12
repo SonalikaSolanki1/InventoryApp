@@ -5,12 +5,11 @@ import { fetchOrders, fetchOrderTypes, submitOrder } from "../redux/slices/order
 
 const OrdersComponent = () => {
     const dispatch = useDispatch();
-    const { orders, orderTypes, loading } = useSelector((state) => state.orders);
+    const { orders, loading } = useSelector((state) => state.orders);
 
     console.log(orders);
 
     useEffect(() => {
-        dispatch(fetchOrderTypes());
         dispatch(fetchOrders());
     }, [dispatch]);
 

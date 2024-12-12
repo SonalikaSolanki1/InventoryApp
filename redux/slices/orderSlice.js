@@ -2,15 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Realm from "../../realm"; // Adjust the path to your Realm configuration
 import { ObjectId } from "bson";
 
-// Async thunks
-export const fetchOrderTypes = createAsyncThunk("orders/fetchOrderTypes", async () => {
-    try {
-        // Simulate fetching order types
-        return ["Trade", "Non-Trade"];
-    } catch (error) {
-        throw new Error("Failed to fetch order types");
-    }
-});
+
 
 export const fetchOrders = createAsyncThunk("orders/fetchOrders", async () => {
     try {
@@ -24,6 +16,7 @@ export const fetchOrders = createAsyncThunk("orders/fetchOrders", async () => {
             phoneNumber: order.phoneNumber,
             orderType: order.orderType,
             quantity: order.quantity,
+            price: order.price,
         }));
         realm.close(); // Close Realm instance
         return ordersArray;
@@ -44,6 +37,7 @@ export const submitOrder = createAsyncThunk("orders/submitOrder", async (order) 
                 phoneNumber: order.phoneNumber,
                 orderType: order.orderType,
                 quantity: order.quantity,
+                prince: order.price,
             });
         });
         const plainOrder = {
@@ -53,6 +47,7 @@ export const submitOrder = createAsyncThunk("orders/submitOrder", async (order) 
             phoneNumber: createdOrder.phoneNumber,
             orderType: createdOrder.orderType,
             quantity: createdOrder.quantity,
+            price: createdOrder.price,
         };
         realm.close(); // Close Realm instance
         return plainOrder;
@@ -65,7 +60,6 @@ export const submitOrder = createAsyncThunk("orders/submitOrder", async (order) 
 const orderSlice = createSlice({
     name: "orders",
     initialState: {
-        orderTypes: [],
         orders: [],
         loading: false,
         error: null,
@@ -73,9 +67,6 @@ const orderSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchOrderTypes.fulfilled, (state, action) => {
-                state.orderTypes = action.payload;
-            })
             .addCase(fetchOrders.pending, (state) => {
                 state.loading = true;
             })
